@@ -3,7 +3,7 @@ import { useParticipants } from "../hooks/useParticipants";
 import { ParticipantCard } from "../components/ParticipantCard";
 import { SeasonSelector } from "../components/SeasonSelector";
 
-const CURRENT_SEASON = "2024-25";
+const CURRENT_SEASON = "2025-26";
 
 export function Dashboard() {
   const [season, setSeason] = useState(CURRENT_SEASON);
@@ -12,7 +12,7 @@ export function Dashboard() {
   return (
     <div className="dashboard">
       <header className="dashboard__header">
-        <h1>NBA Draft Tracker</h1>
+        <h1>NBA Draft: Team Tracker</h1>
         <SeasonSelector selected={season} onChange={setSeason} />
       </header>
 
