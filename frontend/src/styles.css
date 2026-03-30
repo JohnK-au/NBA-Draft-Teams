@@ -1,0 +1,198 @@
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0f1117;
+  color: #e8eaf0;
+  min-height: 100vh;
+}
+
+/* ── Dashboard layout ── */
+.dashboard {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.dashboard__header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #c9a227; /* NBA gold */
+}
+
+/* ── Season selector ── */
+.season-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.season-selector label {
+  color: #9ca3b0;
+}
+
+.season-selector select {
+  background: #1e2230;
+  color: #e8eaf0;
+  border: 1px solid #374151;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* ── Status messages ── */
+.status-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #9ca3b0;
+}
+
+.status-message--error {
+  color: #f87171;
+}
+
+.status-message__sub {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0.75;
+}
+
+/* ── Participant card ── */
+.participant-card {
+  background: #1a1d2e;
+  border: 1px solid #2d3247;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.participant-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.2rem;
+  background: #1e2338;
+  border-bottom: 1px solid #2d3247;
+}
+
+.participant-card__rank {
+  font-size: 0.8rem;
+  color: #6b7280;
+  min-width: 1.8rem;
+}
+
+.participant-card__name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  flex: 1;
+}
+
+.participant-card__empty {
+  padding: 1.2rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* ── Record badge ── */
+.record-badge {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.record-badge--lg {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #c9a227;
+}
+
+.record-badge--sm {
+  font-size: 0.875rem;
+}
+
+.record-badge__pct {
+  color: #9ca3b0;
+  font-size: 0.8em;
+}
+
+/* ── Team table ── */
+.participant-card__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.participant-card__table thead tr {
+  background: #161925;
+}
+
+.participant-card__table th {
+  padding: 0.55rem 1rem;
+  text-align: left;
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.team-row td {
+  padding: 0.6rem 1rem;
+  border-top: 1px solid #1e2238;
+  vertical-align: middle;
+}
+
+.team-row:hover td {
+  background: #1e2440;
+}
+
+.team-row__name {
+  min-width: 160px;
+}
+
+.team-row__abbr {
+  display: inline-block;
+  width: 3rem;
+  font-weight: 600;
+  color: #60a5fa;
+}
+
+.team-row__full {
+  color: #d1d5db;
+}
+
+.team-row__record {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.team-row__split,
+.team-row__l10 {
+  color: #9ca3b0;
+  white-space: nowrap;
+  font-size: 0.82rem;
+}
+
+.team-row__standing {
+  color: #9ca3b0;
+  white-space: nowrap;
+  font-size: 0.82rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .team-row__full { display: none; }
+  .team-row__split { display: none; }
+  .participant-card__table th:nth-child(3) { display: none; }
+}
