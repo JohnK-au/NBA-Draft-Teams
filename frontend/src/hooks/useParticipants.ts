@@ -27,7 +27,7 @@ const MOCK_DATA: ParticipantStats[] = [
   },
 ];
 
-const USE_MOCK = true; // Set to false to use the real backend
+const USE_MOCK = false; // Set to false to use the real backend
 
 export function useParticipants(season: string): State {
   const [state, setState] = useState<State>({
