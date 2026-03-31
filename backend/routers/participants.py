@@ -5,7 +5,7 @@ from backend.services.nba_client import get_live_standings
 
 router = APIRouter()
 
-CURRENT_SEASON = "2024-25"
+CURRENT_SEASON = "2025-26"
 
 
 def _build_participants(
