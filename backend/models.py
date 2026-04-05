@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 
@@ -28,3 +29,13 @@ class ParticipantStats(BaseModel):
 
 class RosterPayload(BaseModel):
     rosters: dict[str, list[int]]
+
+
+class StandingsResponse(BaseModel):
+    participants: list[ParticipantStats]
+    fetched_at: datetime | None
+
+class AllTimeEntry(BaseModel):
+    participant_name: str
+    total: AggregateRecord
+    per_season: dict[str, AggregateRecord]

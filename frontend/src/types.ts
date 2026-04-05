@@ -27,3 +27,14 @@ export interface SeasonsResponse {
   current: string;
   historical: string[];
 }
+
+export interface AllTimeEntry {
+  participant_name: string;
+  total: AggregateRecord;                      // the headline number — shown prominently
+  per_season: Record<string, AggregateRecord>; // season-by-season breakdown
+}
+
+export interface StandingsResponse {
+  participants: ParticipantStats[];
+  fetched_at: string | null;
+}

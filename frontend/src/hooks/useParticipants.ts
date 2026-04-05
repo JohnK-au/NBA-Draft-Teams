@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { fetchParticipants } from "../api/client";
-import type { ParticipantStats } from "../types";
+import { fetchParticipants, refreshStandings } from "../api/client";
+import type { ParticipantStats, StandingsResponse } from "../types";
 
 interface State {
   participants: ParticipantStats[];
   loading: boolean;
   error: string | null;
+  fetchedAt: string | null;
+  refreshing: boolean;
 }
 
 const MOCK_DATA: ParticipantStats[] = [
@@ -27,27 +29,35 @@ const MOCK_DATA: ParticipantStats[] = [
   },
 ];
 
-const USE_MOCK = false; // Set to false to use the real backend
+const USE_MOCK = false;
 
-export function useParticipants(season: string): State {
+export function useParticipants(season: string) {
   const [state, setState] = useState<State>({
     participants: [],
     loading: true,
     error: null,
+    fetchedAt: null,
+    refreshing: false,
   });
 
   useEffect(() => {
     if (USE_MOCK) {
-      setState({ participants: MOCK_DATA, loading: false, error: null });
+      setState({ participants: MOCK_DATA, loading: false, error: null, fetchedAt: null, refreshing: false });
       return;
     }
 
     let cancelled = false;
-    setState({ participants: [], loading: true, error: null });
+    setState({ participants: [], loading: true, error: null, fetchedAt: null, refreshing: false });
 
     fetchParticipants(season)
-      .then((data) => {
-        if (!cancelled) setState({ participants: data, loading: false, error: null });
+      .then((data: StandingsResponse) => {
+        if (!cancelled) setState({
+          participants: data.participants,
+          loading: false,
+          error: null,
+          fetchedAt: data.fetched_at,
+          refreshing: false,
+        });
       })
       .catch((err: unknown) => {
         if (!cancelled)
@@ -55,6 +65,8 @@ export function useParticipants(season: string): State {
             participants: [],
             loading: false,
             error: err instanceof Error ? err.message : "Unknown error",
+            fetchedAt: null,
+            refreshing: false,
           });
       });
 
@@ -63,5 +75,20 @@ export function useParticipants(season: string): State {
     };
   }, [season]);
 
-  return state;
+  const refresh = async () => {
+    setState(prev => ({ ...prev, refreshing: true }));
+    try {
+      const data = await refreshStandings();
+      setState(prev => ({
+        ...prev,
+        participants: data.participants,
+        fetchedAt: data.fetched_at,
+        refreshing: false,
+      }));
+    } catch (err) {
+      setState(prev => ({ ...prev, refreshing: false }));
+    }
+  };
+
+  return { ...state, refresh };
 }

@@ -1,5 +1,7 @@
 # NBA Team Draft Tracker
 
+https://nba-draft-teams.onrender.com/
+
 A lightweight web app for tracking a friend-group NBA team draft across a full season. Each participant drafts a set of NBA teams at the start of the season. This app shows live standings, records, and comparisons so you can see who's winning the draft.
 
 ## Features

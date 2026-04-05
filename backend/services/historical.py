@@ -7,6 +7,17 @@ Each file is named YYYY-YY.json and contains:
   "generated_at": "2024-09-01T00:00:00Z",
   "teams": [ <TeamStats objects> ]
 }
+
+NOTE: The historical JSON files (per-team stats per past season) are NOT being
+migrated to Supabase. We don't actually have that team-level breakdown for
+past seasons — only aggregate W-L per participant per season.
+
+The season_records Supabase table stores those aggregates and powers the new
+all-time leaderboard page (see backend/routers/alltime.py).
+
+This module (and the historical/*.json files) can remain as-is or be deleted
+if you decide the per-season team view on the Dashboard isn't worth supporting
+for historical seasons. That's a product decision to make later.
 """
 
 import json

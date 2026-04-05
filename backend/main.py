@@ -1,12 +1,13 @@
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from backend.routers import participants, admin
+from backend.routers import participants, admin, alltime
 
 app = FastAPI(title="NBA Draft Tracker", docs_url="/docs")
 
 app.include_router(participants.router)
 app.include_router(admin.router)
+app.include_router(alltime.router)
 
 # Serve the built React frontend at / in production.
 # In dev, Vite runs separately and proxies /api/* to this server.

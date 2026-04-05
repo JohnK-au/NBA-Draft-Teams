@@ -10,6 +10,8 @@ import logging
 from curl_cffi import requests as cffi_requests
 from backend.cache import standings_cache
 from backend.models import TeamStats
+from backend.services import standings_store
+
 
 logger = logging.getLogger(__name__)
 
@@ -83,17 +85,17 @@ def _fetch_from_nba_api() -> list[TeamStats]:
 
 
 def get_live_standings() -> list[TeamStats]:
-    cached = standings_cache.get(CACHE_KEY)
-    if cached is not None:
-        return cached
 
-    try:
-        teams = _fetch_from_nba_api()
-        standings_cache.set(CACHE_KEY, teams)
+    teams, _ = standings_store.get_cached_standings()
+    if teams:
         return teams
-    except Exception as exc:
-        stale = standings_cache.get(CACHE_KEY)
-        if stale is not None:
-            logger.warning("NBA API call failed, serving stale cache: %s", exc)
-            return stale
-        raise RuntimeError(f"NBA API unavailable and no cached data: {exc}") from exc
+    # Cache is empty, fetch from NBA API and populate
+    return fetch_and_store_live_standings()
+
+
+def fetch_and_store_live_standings() -> list[TeamStats]:
+
+    teams = _fetch_from_nba_api()
+    standings_store.save_standings(teams)
+    return teams
+
