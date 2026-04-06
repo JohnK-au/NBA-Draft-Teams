@@ -204,13 +204,21 @@ body {
 
 .participant-card__table th {
   padding: 0.55rem 1rem;
-  text-align: left;
+  text-align: center;
   color: #6b7280;
   font-weight: 500;
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
+}
+
+.participant-card__table--centered .team-row td {
+  text-align: center;
+}
+
+.th--left {
+  text-align: left !important;
 }
 
 .team-row td {
@@ -241,6 +249,7 @@ body {
 .team-row__record {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-align: center;
 }
 
 .team-row__split,
@@ -248,12 +257,14 @@ body {
   color: #9ca3b0;
   white-space: nowrap;
   font-size: 0.82rem;
+  text-align: center;
 }
 
 .team-row__standing {
   color: #9ca3b0;
   white-space: nowrap;
   font-size: 0.82rem;
+  text-align: center;
 }
 
 /* ── Responsive ── */

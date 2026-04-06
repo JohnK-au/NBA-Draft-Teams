@@ -20,6 +20,7 @@
 import { useState, useEffect } from "react";
 import { fetchAllTime } from "../api/client";
 import type { AllTimeEntry } from "../types";
+import { RecordBadge } from "../components/RecordBadge";
 
 function formatWinPct(pct: number): string {
   return pct.toFixed(3).replace(/^0/, "");  // "0.608" → ".608"
@@ -30,19 +31,29 @@ function AllTimeCard({ entry, rank }: { entry: AllTimeEntry; rank: number }) {
   return (
     <div className="participant-card">
       <div className="participant-card__header">
-        <span className="participant-card__rank">#{rank}</span>
+        <span className="participant-card__rank">{rank}</span>
         <span className="participant-card__name">{participant_name}</span>
-        <span>
-          {total.wins}–{total.losses} {formatWinPct(total.win_pct)}
-        </span>
+        <RecordBadge
+          wins={total.wins}
+          losses={total.losses}
+          winPct={total.win_pct}
+          size="lg"
+        />
       </div>
-      <table className="participant-card__table">
+      <table className="participant-card__table participant-card__table--centered">
+        <thead>
+          <tr>
+            <th>Season</th>
+            <th>W–L</th>
+            <th>Win %</th>
+          </tr>
+        </thead>
         <tbody>
           {Object.entries(per_season).sort().map(([season, record]) => (
-            <tr key={season}>
+            <tr key={season} className="team-row">
               <td>{season}</td>
-              <td>{record.wins}–{record.losses}</td>
-              <td>{formatWinPct(record.win_pct)}</td>
+              <td><RecordBadge wins={record.wins} losses={record.losses} /></td>
+              <td className="record-badge__pct">{formatWinPct(record.win_pct)}</td>
             </tr>
           ))}
         </tbody>
@@ -64,15 +75,15 @@ export function AllTime() {
     }, []);
 
   return (
-    <div className="alltime">
-      <header className="alltime__header">
+    <div className="dashboard">
+      <header className="dashboard__header">
         <h1>All-Time Standings</h1>
-        <p className="alltime__subtitle">2021-22 through present</p>
+        <p style={{ fontSize: "0.9rem", color: "#9ca3b0" }}>2021-22 through present</p>
       </header>
 
-      <main className="alltime__main">
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error}</p>}
+      <main className="dashboard__main">
+        {loading && <div className="status-message"><p>Loading standings...</p></div>}
+        {error && <div className="status-message status-message--error"><p>Failed to load data: {error}</p></div>}
         {!loading && !error && entries.map((entry, i) => (
           <AllTimeCard key={entry.participant_name} entry={entry} rank={i + 1} />
         ))}

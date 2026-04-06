@@ -27,7 +27,7 @@ export function ParticipantCard({ participant, rank }: Props) {
         <table className="participant-card__table">
           <thead>
             <tr>
-              <th>Team</th>
+              <th className="th--left">Team</th>
               <th>W–L</th>
               <th>Home / Away</th>
               <th>Last 10</th>
