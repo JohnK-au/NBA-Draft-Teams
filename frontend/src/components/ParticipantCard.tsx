@@ -13,7 +13,7 @@ export function ParticipantCard({ participant, rank }: Props) {
   return (
     <div className="participant-card">
       <div className="participant-card__header">
-        <span className="participant-card__rank">#{rank}</span>
+        <span className="participant-card__rank">{rank}</span>
         <span className="participant-card__name">{name}</span>
         <RecordBadge
           wins={aggregate.wins}
