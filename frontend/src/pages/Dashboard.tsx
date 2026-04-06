@@ -14,20 +14,17 @@ export function Dashboard() {
       <header className="dashboard__header">
         <h1>NBA Draft: Team Tracker</h1>
         <SeasonSelector selected={season} onChange={setSeason} />
-
         {season === CURRENT_SEASON && (
-          <div className="dashboard__controls">
-            {fetchedAt && (
-              <span className="dashboard__last-updated">
-                Last updated: {new Date(fetchedAt).toLocaleString()}
-              </span>
-            )}
-            <button onClick={refresh} disabled={refreshing}>
-              {refreshing ? "Fetching..." : "Fetch Live Standings"}
-            </button>
-          </div>
+          <button className="btn--standings" onClick={refresh} disabled={refreshing}>
+            {refreshing ? "Fetching..." : "Fetch Live Standings"}
+          </button>
         )}
       </header>
+      {season === CURRENT_SEASON && fetchedAt && (
+        <p className="dashboard__last-updated">
+          Last updated: {new Date(fetchedAt).toLocaleString()}
+        </p>
+      )}
 
       <main className="dashboard__main">
         {loading && (

@@ -8,6 +8,40 @@ body {
   min-height: 100vh;
 }
 
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #13161f;
+  border-bottom: 1px solid #2d3247;
+}
+
+.navbar__link {
+  display: inline-block;
+  padding: 0.45rem 1.25rem;
+  border-radius: 6px;
+  border: 1px solid #374151;
+  color: #9ca3b0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.navbar__link:hover {
+  background: #1e2338;
+  color: #e8eaf0;
+  border-color: #c9a227;
+}
+
+.navbar__link.active {
+  background: #1e2338;
+  color: #c9a227;
+  border-color: #c9a227;
+}
+
 /* ── Dashboard layout ── */
 .dashboard {
   max-width: 960px;
@@ -25,8 +59,8 @@ body {
 }
 
 .dashboard__header h1 {
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 2.0rem;
+  font-weight: 900;
   color: #c9a227; /* NBA gold */
 }
 
@@ -50,6 +84,35 @@ body {
   padding: 0.3rem 0.6rem;
   font-size: 0.9rem;
   cursor: pointer;
+}
+
+/* ── Dashboard controls ── */
+.btn--standings {
+  background: #1e2230;
+  color: #e8eaf0;
+  border: 1px solid #374151;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn--standings:hover:not(:disabled) {
+  border-color: #c9a227;
+  color: #c9a227;
+}
+
+.btn--standings:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dashboard__last-updated {
+  font-size: 0.72rem;
+  color: #6b7280;
+  text-align: right;
+  margin-top: -1.25rem;
+  margin-bottom: 1rem;
 }
 
 /* ── Status messages ── */
@@ -88,14 +151,15 @@ body {
 }
 
 .participant-card__rank {
-  font-size: 0.8rem;
-  color: #6b7280;
-  min-width: 1.8rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #c9a227;
+  min-width: 1.0rem;
 }
 
 .participant-card__name {
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   flex: 1;
 }
 
@@ -123,7 +187,8 @@ body {
 
 .record-badge__pct {
   color: #9ca3b0;
-  font-size: 0.8em;
+  font-size: 0.8rem;
+  margin-left: 0.4rem
 }
 
 /* ── Team table ── */
@@ -139,13 +204,24 @@ body {
 
 .participant-card__table th {
   padding: 0.55rem 1rem;
-  text-align: left;
+  text-align: center;
   color: #6b7280;
   font-weight: 500;
   font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   white-space: nowrap;
+}
+
+.wins--high td, .wins--high td span { color: #4ade80; }
+.wins--low td,  .wins--low td span  { color: #f87171; }
+
+.participant-card__table--centered .team-row td {
+  text-align: center;
+}
+
+.th--left {
+  text-align: left !important;
 }
 
 .team-row td {
@@ -176,6 +252,7 @@ body {
 .team-row__record {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  text-align: center;
 }
 
 .team-row__split,
@@ -183,12 +260,14 @@ body {
   color: #9ca3b0;
   white-space: nowrap;
   font-size: 0.82rem;
+  text-align: center;
 }
 
 .team-row__standing {
   color: #9ca3b0;
   white-space: nowrap;
   font-size: 0.82rem;
+  text-align: center;
 }
 
 /* ── Responsive ── */
