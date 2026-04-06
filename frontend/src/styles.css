@@ -213,6 +213,9 @@ body {
   white-space: nowrap;
 }
 
+.wins--high td, .wins--high td span { color: #4ade80; }
+.wins--low td,  .wins--low td span  { color: #f87171; }
+
 .participant-card__table--centered .team-row td {
   text-align: center;
 }

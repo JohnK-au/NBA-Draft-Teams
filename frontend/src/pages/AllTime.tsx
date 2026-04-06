@@ -17,16 +17,18 @@
 // or just shown as a smaller table beneath each participant's total.
 // =============================================================================
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { fetchAllTime } from "../api/client";
 import type { AllTimeEntry } from "../types";
 import { RecordBadge } from "../components/RecordBadge";
+
+type SeasonExtremes = Record<string, { max: number; min: number }>;
 
 function formatWinPct(pct: number): string {
   return pct.toFixed(3).replace(/^0/, "");  // "0.608" → ".608"
 }
 
-function AllTimeCard({ entry, rank }: { entry: AllTimeEntry; rank: number }) {
+function AllTimeCard({ entry, rank, seasonExtremes }: { entry: AllTimeEntry; rank: number; seasonExtremes: SeasonExtremes }) {
   const { participant_name, total, per_season } = entry;
   return (
     <div className="participant-card">
@@ -49,13 +51,20 @@ function AllTimeCard({ entry, rank }: { entry: AllTimeEntry; rank: number }) {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(per_season).sort().map(([season, record]) => (
-            <tr key={season} className="team-row">
-              <td>{season}</td>
-              <td><RecordBadge wins={record.wins} losses={record.losses} /></td>
-              <td className="record-badge__pct">{formatWinPct(record.win_pct)}</td>
-            </tr>
-          ))}
+          {Object.entries(per_season).sort().map(([season, record]) => {
+            const extremes = seasonExtremes[season];
+            const winsClass =
+              extremes && record.wins === extremes.max ? "wins--high"
+              : extremes && record.wins === extremes.min ? "wins--low"
+              : undefined;
+            return (
+              <tr key={season} className={`team-row${winsClass ? ` ${winsClass}` : ""}`}>
+                <td>{season}</td>
+                <td><RecordBadge wins={record.wins} losses={record.losses} /></td>
+                <td>{formatWinPct(record.win_pct)}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
@@ -74,6 +83,22 @@ export function AllTime() {
         .finally(() => setLoading(false));
     }, []);
 
+    const seasonExtremes = useMemo<SeasonExtremes>(() => {
+      const result: SeasonExtremes = {};
+      for (const entry of entries) {
+        for (const [season, record] of Object.entries(entry.per_season)) {
+          const cur = result[season];
+          if (!cur) {
+            result[season] = { max: record.wins, min: record.wins };
+          } else {
+            if (record.wins > cur.max) cur.max = record.wins;
+            if (record.wins < cur.min) cur.min = record.wins;
+          }
+        }
+      }
+      return result;
+    }, [entries]);
+
   return (
     <div className="dashboard">
       <header className="dashboard__header">
@@ -85,7 +110,7 @@ export function AllTime() {
         {loading && <div className="status-message"><p>Loading standings...</p></div>}
         {error && <div className="status-message status-message--error"><p>Failed to load data: {error}</p></div>}
         {!loading && !error && entries.map((entry, i) => (
-          <AllTimeCard key={entry.participant_name} entry={entry} rank={i + 1} />
+          <AllTimeCard key={entry.participant_name} entry={entry} rank={i + 1} seasonExtremes={seasonExtremes} />
         ))}
       </main>
     </div>
