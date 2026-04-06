@@ -8,6 +8,40 @@ body {
   min-height: 100vh;
 }
 
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #13161f;
+  border-bottom: 1px solid #2d3247;
+}
+
+.navbar__link {
+  display: inline-block;
+  padding: 0.45rem 1.25rem;
+  border-radius: 6px;
+  border: 1px solid #374151;
+  color: #9ca3b0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.navbar__link:hover {
+  background: #1e2338;
+  color: #e8eaf0;
+  border-color: #c9a227;
+}
+
+.navbar__link.active {
+  background: #1e2338;
+  color: #c9a227;
+  border-color: #c9a227;
+}
+
 /* ── Dashboard layout ── */
 .dashboard {
   max-width: 960px;
